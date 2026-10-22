@@ -151,13 +151,6 @@ API call fails, so your automation can alert on failure.
 | `zoom_emergency_signage_clear_webhook.py` | Clear the alert (stateless, `force_remove`) |
 | `zoom_lookup_locations.py` | List Zoom Rooms locations and IDs |
 
-## Disclaimer
-
-This is an independent project and is not affiliated with or endorsed by Zoom
-or Logitech. Zoom, Zoom Rooms and Logitech Creative Console are trademarks of
-their respective owners. Provided as-is
-under the MIT license.
-
 ## License
 
 [MIT](LICENSE)
