@@ -47,6 +47,41 @@ target), with no per-room configuration.
 `zoom_lookup_locations.py` is a one-off helper that lists your Zoom Rooms
 locations and their IDs so you can find the one to target.
 
+## Triggering it with a physical button
+
+In my setup the trigger is a physical button: a key on a Logitech Creative
+Console that calls the webhook version of the activate script. One key shows
+the alert and another clears it, so whoever is on site can raise the alarm
+without opening a laptop or logging in to anything.
+
+You don't need that specific device. Anything that can call a webhook or run
+a command will work, for example a macro pad, a Stream Deck-style controller,
+a smart or panic button, a hotkey tool, a chat command, or the output of your
+alarm panel:
+
+```
+ [ physical button ] ──HTTP POST──►  automation platform / serverless function
+                                       runs zoom_emergency_signage_webhook.py
+                                                     │
+                                                     ▼
+                                     alert shown on every Zoom Rooms display
+```
+
+For example, a button (or any script) can fire the trigger with a plain HTTP
+request to the URL your platform gives you:
+
+```bash
+curl -X POST "https://<your-automation-platform>/<activate-webhook-url>"
+```
+
+Use a second button or URL pointing at `zoom_emergency_signage_clear_webhook.py`
+to clear the alert. Because the webhook versions are stateless, the clear
+button needs no memory of the activation.
+
+Whatever you use, protect the trigger URL like a credential, because anyone who
+can call it can put an alert on your displays. Prefer a platform that supports
+authentication or a secret token on the webhook.
+
 ## Setup
 
 1. **Create a Server-to-Server OAuth app** in the Zoom App Marketplace and
@@ -118,8 +153,9 @@ API call fails, so your automation can alert on failure.
 
 ## Disclaimer
 
-This is an independent project and is not affiliated with or endorsed by Zoom.
-Zoom and Zoom Rooms are trademarks of their respective owners. Provided as-is
+This is an independent project and is not affiliated with or endorsed by Zoom
+or Logitech. Zoom, Zoom Rooms and Logitech Creative Console are trademarks of
+their respective owners. Provided as-is
 under the MIT license.
 
 ## License
